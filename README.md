@@ -46,7 +46,8 @@ run TodoApplication.main()
 From jar...
 
 ```
-java -jar todo-0.0.1-SNAPSHOT-plain.jar
+make sure to place the application.properties in the same location as the jar
+java -jar todo-0.0.1-SNAPSHOT.jar
 ```
 
 Application starts as port 8080
