@@ -1,4 +1,4 @@
-package com.ey.api.todo.resources;
+package com.ey.api.todo.web;
 
 import com.ey.api.todo.entity.ErrorMessage;
 import com.ey.api.todo.entity.Todo;

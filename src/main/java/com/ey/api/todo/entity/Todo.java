@@ -20,6 +20,11 @@ public class Todo {
     private String createdBy;
     private Date timeCreate;
 
+    public Todo(String task) {
+        this.task=task;
+        this.createdBy="Anonymous";
+    }
+
     public Integer getId() {
         return id;
     }
