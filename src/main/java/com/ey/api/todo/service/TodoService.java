@@ -55,7 +55,7 @@ public class TodoService {
      */
     public Todo saveOrUpdate(Todo todo) throws BadRequestException{
         try {
-            todo.setTimeCreate(new Date(System.currentTimeMillis()));
+            todo.setLastUpdated(new Date(System.currentTimeMillis()));
             return todoRepository.save(todo);
         } catch (Exception e){
             throw new BadRequestException("Invalid Todo Item");

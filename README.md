@@ -25,9 +25,9 @@ This boot application exposes APIs for a basic todo application.
 - [Gradle] - Packaged as a gradle project - 7.1.1
 - [Java] - Built on open-JDK11
 - [Spring Boot] - Leverages web MVC framework provided by Spring Boot 2.5.4
-- [H2] - Markdown parser done right. Fast and easy to extend.
-- [JUnit] - great UI boilerplate for modern web apps
-- [Swagger] - evented I/O for the backend
+- [H2] - Uses In Memory H2 DB.
+- [JUnit] - JUnit5 is used as a test framework
+- [Swagger] - Endpoints are exposed on SwaggerUI
 
 And of course sourced as an open source with a [public repository][dill]
  on GitHub.
@@ -55,34 +55,55 @@ Application starts as port 8080
 Swagger Path :
 
 ```
-http://localhost:8080/swagger-ui/#/todo-controller/deleteTodoUsingDELETE
+http://localhost:8080/swagger-ui/#/todo-controller
 ```
 Sample Payload:
 
 ```
 {
-  "id": 1,
-  "task": "Some Task",
-  "completed": true,
-  "createdBy": "Neha"
+  "id": 0,
+  "last_update_timestamp": "2021-09-21T13:53:14.231Z",
+  "last_updated_by": "string",
+  "task": "string",
+  "task_status": true
 }
 ```
 
 ## Approach
 
+The Todo APIs provide basic functionality of an application that can be used to save a list tasks.
+The tasks have properties such as task description, date when the task was updated with time stamp.
+To Keep thing simple the id is auto incremented to avoid any inconsistancy in data. 
+The update timestamp takes the current server time when the request was sent. This avoids any inaccuracy in the logging of tasks.
 
+All the validations are taken care at the entity and the service level. 
+
+The API returns a custom BadRequestException with relevent information.
+
+All API endpoints return ResponseEntity<?> to keep the implementaion uniform.
+
+The repository is a standered CrudRepository which could be extended for any further inhancements
 
 ## Design patterns used
 
+The application follows MVC which is the most widely used architectural pattern for web applications. 
+All classes follow he principle of Separation of Concerns.
+
+All object lifecycle in this application is handled by Spring. This uses dependency injection.  
+
 
 ## Future Inhacements
+
+Login module is very much need if we want to be storing personal task list.
+This application could be extended to be used by multiple users. This would create a need for handeling the transactions better.
 
 ## Curls For Testing:
 
 Add /Update Todo
 
 ```
-curl -X POST "http://localhost:8080/v1/api/todo/" -H "accept: */*" -H "Content-Type: application/json" -d "{ \"completed\": true, \"createdBy\": \"Neha\", \"id\": 1, \"task\": \"Some more Task\", \"timeCreate\": \"2021-09-20T13:59:55.801Z\"}"
+curl -X POST "http://localhost:8080/v1/api/todo/" -H "accept: */*" -H "Content-Type: application/json" -d "{ \"id\": 0, \"last_update_timestamp\": \"2021-09-21T13:53:14.231Z\", \"last_updated_by\": \"Neha\", \"task\": \"Some Task\", \"task_status\": true}"
+
 ```
 
 Get All Todos

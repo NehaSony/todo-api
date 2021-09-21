@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 /**
  * @author Neha.Sony
  */
@@ -46,7 +48,7 @@ public class TodoController {
      * @return
      */
     @PostMapping("/")
-    private ResponseEntity<?> saveTodo(@RequestBody Todo Todo) {
+    private ResponseEntity<?> saveTodo(@RequestBody @Valid Todo Todo) {
         try {
             return new ResponseEntity<>(todoService.saveOrUpdate(Todo),HttpStatus.OK);
         }catch (BadRequestException e) {

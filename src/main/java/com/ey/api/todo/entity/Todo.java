@@ -1,9 +1,12 @@
 package com.ey.api.todo.entity;
 
-import javax.persistence.Id;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.persistence.*;
+
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
@@ -11,18 +14,38 @@ import java.util.Date;
  */
 
 @Entity
+
 public class Todo {
     @Id
     @GeneratedValue
+    @JsonProperty("id")
     private int id;
+
+
+    @NotNull
+    @JsonProperty("task")
     private String task;
+
+
+    @JsonProperty("task_status")
     private Boolean completed;
-    private String createdBy;
-    private Date timeCreate;
+
+
+    @JsonProperty("last_updated_by")
+    private String updatedBy;
+
+
+    @DateTimeFormat(pattern = "yyyyy.MMMMM.dd GGG hh:mm aaa")
+    @Temporal(value= TemporalType.TIMESTAMP)
+    @JsonProperty("last_update_timestamp")
+    private Date lastUpdated;
+
+    public Todo() {
+    }
 
     public Todo(String task) {
         this.task=task;
-        this.createdBy="Anonymous";
+        this.updatedBy ="Anonymous";
     }
 
     public Integer getId() {
@@ -49,20 +72,20 @@ public class Todo {
         this.completed = completed;
     }
 
-    public String getCreatedBy() {
-        return createdBy;
+    public String getUpdatedBy() {
+        return updatedBy;
     }
 
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
     }
 
-    public Date getTimeCreate() {
-        return timeCreate;
+    public Date getLastUpdated() {
+        return lastUpdated;
     }
 
-    public void setTimeCreate(Date timeCreate) {
-        this.timeCreate = timeCreate;
+    public void setLastUpdated(Date lastUpdated) {
+        this.lastUpdated = lastUpdated;
     }
 
     @Override
@@ -71,8 +94,8 @@ public class Todo {
                 "id='" + id + '\'' +
                 ", task='" + task + '\'' +
                 ", completed=" + completed +
-                ", createdBy='" + createdBy + '\'' +
-                ", timeCreate=" + timeCreate +
+                ", createdBy='" + updatedBy + '\'' +
+                ", timeCreate=" + lastUpdated +
                 '}';
     }
 }
